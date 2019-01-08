@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "141778408918",
+    "firebase_url": "https://testchmura-d9f80.firebaseio.com",
+    "project_id": "testchmura-d9f80",
+    "storage_bucket": "testchmura-d9f80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141778408918:android:6b1409a263133d98",
+        "android_client_info": {
+          "package_name": "chmura.chmura.com.test_chmura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141778408918-f315eu7ihkk9ljc5iid8e3nqg1si9m6k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "chmura.chmura.com.test_chmura",
+            "certificate_hash": "2436587c008ab739be66e9a6d7b30f52549ffe63"
+          }
+        },
+        {
+          "client_id": "141778408918-5faaqns5h6oucflbh8ulckk5hi92h3m9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx-mWvf0Yyddx3iCQ9s5hczHFVKTxQDpE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141778408918-5faaqns5h6oucflbh8ulckk5hi92h3m9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
