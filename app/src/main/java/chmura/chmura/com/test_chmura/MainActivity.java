@@ -1,25 +1,50 @@
 package chmura.chmura.com.test_chmura;
 
+import android.Manifest;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import com.google.firebase.iid.zzb;
+
+import java.io.File;
+import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private StorageReference storageRef;
     private TextView mTextMessage;
+    private ImageView imageView;
+    //private MyAppGlideModule GlideApp;
+    private String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -27,11 +52,33 @@ public class MainActivity extends AppCompatActivity {
         private FirebaseRecyclerAdapter firebaseAdapter;
         private String emailUser;
 
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    //mTextMessage.setText(R.string.title_home);
+
+                    // Create a reference to the file to delete
+                    StorageReference desertRef = storageRef.child("images/zima.jpg");
+
+                    // Delete the file
+                    desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // File deleted successfully
+                            String text = "deletion success";
+                            mTextMessage.setText(text);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Uh-oh, an error occurred!
+                            String text = "failure delete";
+                            mTextMessage.setText(text);
+                        }
+                    });
+
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
@@ -41,13 +88,47 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                     else {
-                        mTextMessage.setText(R.string.juz_zalogowany);
+
+                        //mTextMessage.setText(R.string.juz_zalogowany);
                         emailUser = firebaseUser.getEmail();
-                        mTextMessage.setText(emailUser);
+                        String text = "Uzytkownik zalogowany jako " + emailUser;
+                        mTextMessage.setText(text);
                     }
                     return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
+                    StorageReference islandRef;
+                    islandRef = storageRef.child("images/kielce2.jpg");
+
+                    File localFile = null;
+                    try {
+                        localFile = File.createTempFile("images", "jpg");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            String text = "sukces ";
+                            mTextMessage.setText(text);
+
+                            //imageView.setImageBitmap(BitmapFactory.decodeFile(localFile));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            String text = "porazka ";
+                            mTextMessage.setText(text);
+                        }
+                    });
+
+
+                    //startActivity(new Intent(MainActivity.this, ObrazekActivity.class));
+                    //finish();
+                    //imageView.setImageBitmap(BitmapFactory.decodeFile("root/Pictures/pies.jpg"));
+                    //imageView.setImageResource(R.drawable.kielce2);
+
                     return true;
             }
             return false;
@@ -59,20 +140,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageView = findViewById(R.id.imageView1);
+        storageRef = FirebaseStorage.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        //updateUI(currentUser);
-//    }
 }
