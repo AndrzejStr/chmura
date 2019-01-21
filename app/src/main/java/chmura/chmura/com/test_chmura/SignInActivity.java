@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class SignInActivity extends AppCompatActivity implements
@@ -47,7 +46,7 @@ public class SignInActivity extends AppCompatActivity implements
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         // Assign fields
-        mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        mSignInButton = findViewById(R.id.sign_in_button);
 
         // Set click listeners
         mSignInButton.setOnClickListener(this);

@@ -1,36 +1,22 @@
 package chmura.chmura.com.test_chmura;
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import com.google.firebase.iid.zzb;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,25 +29,19 @@ public class MainActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private TextView mTextMessage;
     private ImageView imageView;
-    //private MyAppGlideModule GlideApp;
-    private String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        private DatabaseReference databaseReference;
-        private FirebaseRecyclerAdapter firebaseAdapter;
         private String emailUser;
-
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-
-                    // Create a reference to the file to delete
+                    //zeby usunac plik nalezy wpisac jego poprwna nazwe- zamienic "zima.jpg" na "zima_sopel.jpg"
                     StorageReference desertRef = storageRef.child("images/zima.jpg");
 
-                    // Delete the file
                     desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -139,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        mTextMessage = findViewById(R.id.message);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
