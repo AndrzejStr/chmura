@@ -37,7 +37,7 @@ import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    private File localFile;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private StorageReference storageRef;
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    //mTextMessage.setText(R.string.title_home);
 
                     // Create a reference to the file to delete
                     StorageReference desertRef = storageRef.child("images/zima.jpg");
@@ -66,15 +65,15 @@ public class MainActivity extends AppCompatActivity {
                     desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            // File deleted successfully
-                            String text = "deletion success";
+
+                            String text = "usunieto plik";
                             mTextMessage.setText(text);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            // Uh-oh, an error occurred!
-                            String text = "failure delete";
+
+                            String text = "usuniecie nieudane";
                             mTextMessage.setText(text);
                         }
                     });
@@ -98,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
                     StorageReference islandRef;
-                    islandRef = storageRef.child("images/kielce2.jpg");
+                    islandRef = storageRef.child("images/zima_sopel.jpg");
 
-                    File localFile = null;
+                    localFile = null;
                     try {
                         localFile = File.createTempFile("images", "jpg");
                     } catch (IOException e) {
@@ -110,24 +109,19 @@ public class MainActivity extends AppCompatActivity {
                     islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            String text = "sukces ";
+                            String text = "zaladowano obrazek";
                             mTextMessage.setText(text);
 
-                            //imageView.setImageBitmap(BitmapFactory.decodeFile(localFile));
+                            imageView.setImageBitmap(BitmapFactory.decodeFile(localFile.getAbsolutePath()));
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            String text = "porazka ";
+                            String text = "nieudana proba zaladowania obrazka";
                             mTextMessage.setText(text);
                         }
                     });
 
-
-                    //startActivity(new Intent(MainActivity.this, ObrazekActivity.class));
-                    //finish();
-                    //imageView.setImageBitmap(BitmapFactory.decodeFile("root/Pictures/pies.jpg"));
-                    //imageView.setImageResource(R.drawable.kielce2);
 
                     return true;
             }
